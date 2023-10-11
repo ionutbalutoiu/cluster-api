@@ -321,6 +321,9 @@ func (t *ClusterCacheTracker) newClusterAccessor(ctx context.Context, cluster cl
 		config.CAFile = inClusterConfig.CAFile
 		config.Host = inClusterConfig.Host
 
+		// Stop the previously created cache, before we overwrite the client.
+		cache.Stop()
+
 		// Create a new client and overwrite the previously created client.
 		c, _, cache, err = t.createClient(ctx, config, cluster, indexes)
 		if err != nil {
